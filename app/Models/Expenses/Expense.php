@@ -2,6 +2,7 @@
 
 namespace App\Models\Expenses;
 
+use App\Models\Expenses\Enums\ExpenseCategory;
 use App\Models\Traits\HasUser;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
@@ -29,5 +30,10 @@ class Expense extends Model
     public function scopeRecurring($query)
     {
         return $query->where('is_recurring', true);
+    }
+
+    public static function forCurrentUser()
+    {
+        return static::where('user_id', auth()->id());
     }
 }

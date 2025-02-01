@@ -52,6 +52,7 @@ class AuthController extends Controller
                 return response()->json($success, 200);
             }
 
+
             return response()->json(['message' => 'Invalid email or password'], 401);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Login failed', 'error' => $e->getMessage()], 500);
