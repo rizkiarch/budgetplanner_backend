@@ -1,8 +1,8 @@
 ## Phase 1: Core Features
-- [ ] **Income Management**  
+- [x] **Income Management**  
   Implement features to track and manage income.
 
-- [ ] **Expense Management**  
+- [x] **Expense Management**  
   Implement features to track and manage expenses.
 
 - [ ] **Bill Management**  
