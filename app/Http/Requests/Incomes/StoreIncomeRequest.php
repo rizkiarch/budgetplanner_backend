@@ -18,7 +18,7 @@ class StoreIncomeRequest extends FormRequest
             'name' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'date' => 'required|date',
-            'category' => 'required|in:' . implode(',', IncomeCategory::values()),
+            'category' => 'required|in:' . implode(',', array_column(IncomeCategory::cases(), 'value')),
             'description' => 'nullable|string|max:500'
         ];
     }

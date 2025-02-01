@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Models\Income;
+namespace App\Models\Incomes;
 
-use App\Models\Income\Enum\IncomeCategory;
+use App\Models\Incomes\Enums\IncomeCategory;
 use App\Models\Traits\HasUser;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Sanctum\HasApiTokens;
 
 class Income extends Model
 {
-    use HasUser;
+    use HasUser, HasFactory, HasApiTokens;
+
     protected $fillable = [
         'user_id',
         'name',
@@ -28,5 +31,10 @@ class Income extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public static function forCurrentUser()
+    {
+        return static::where('user_id', auth()->id());
     }
 }

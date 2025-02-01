@@ -13,11 +13,12 @@ use App\Models\Bills\Bill;
 use App\Models\Expenses\Expense;
 use App\Models\Income\Income;
 use App\Models\Savings\Saving;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

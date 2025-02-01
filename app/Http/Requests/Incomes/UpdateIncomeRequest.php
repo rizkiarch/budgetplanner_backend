@@ -18,7 +18,7 @@ class UpdateIncomeRequest extends FormRequest
             'name' => 'sometimes|string|max:255',
             'amount' => 'sometimes|numeric|min:0',
             'date' => 'sometimes|date',
-            'category' => 'sometimes|in:' . implode(',', IncomeCategory::values()),
+            'category' => 'required|in:' . implode(',', array_column(IncomeCategory::cases(), 'value')),
             'description' => 'nullable|string|max:500'
         ];
     }

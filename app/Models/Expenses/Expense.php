@@ -4,10 +4,11 @@ namespace App\Models\Expenses;
 
 use App\Models\Traits\HasUser;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Expense extends Model
 {
-    use HasUser;
+    use HasUser, HasApiTokens;
 
     protected $fillable = [
         'user_id',

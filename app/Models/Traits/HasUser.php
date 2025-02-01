@@ -13,8 +13,8 @@ trait HasUser
         return $this->belongsTo(User::class);
     }
 
-    public function scopeForUser(Builder $query, User $user): void
+    public function scopeForCurrentUser(Builder $query): void
     {
-        return $query->where('user_id', $user->id);
+        $query->where('user_id', auth()->id());
     }
 }

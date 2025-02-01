@@ -11,25 +11,24 @@ use Illuminate\Http\Request;
 
 class IncomeController extends Controller
 {
-    public function __construct()
+    private readonly IncomeRepositoryInterface $incomeRepository;
+
+    public function __construct(IncomeRepositoryInterface $incomeRepository)
     {
-        private readonly IncomeRepositoryInterface $incomeRepository;
-    }{}
+        $this->incomeRepository = $incomeRepository;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index()
     {
-        return response()->json($this->incomeRepository->getAll);
+        return response()->json($this->incomeRepository->getAll());
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): JsonResponse
-    {
-
-    }
+    public function create(): JsonResponse {}
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +38,7 @@ class IncomeController extends Controller
         $data = $request->validated();
         return response()->json([
             $this->incomeRepository->create($data),
-            201;
+            201
         ]);
     }
 
@@ -49,7 +48,7 @@ class IncomeController extends Controller
     public function show(string $id)
     {
         return response()->json((
-            $this->incomeRepository->geyById($id)
+            $this->incomeRepository->getById($id)
         ));
     }
 
@@ -64,7 +63,7 @@ class IncomeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateIncomeRequest $request, string $id)
+    public function update(UpdateIncomeRequest $request, int $id)
     {
         $data = $request->validated();
         return response()->json(
@@ -77,11 +76,11 @@ class IncomeController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->repository->delete($id);
-        return response()->json(null, 204);
+        $response = $this->incomeRepository->delete($id);
+        return $response;
     }
 
-    public function byCategory(string $category): JsonResponse
+    public function byCategory(string $category)
     {
         return response()->json(
             $this->incomeRepository->getByCategory($category)

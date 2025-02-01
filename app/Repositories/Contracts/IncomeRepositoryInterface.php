@@ -11,6 +11,6 @@ interface IncomeRepositoryInterface
     public function create(array $data);
     public function update(int $id, array $data);
     public function delete(int $id);
-    public function getTotalIncome(): float;
-    public funciton getByCategory(string $category);
+    public function getTotalIncome();
+    public function getByCategory(string $category);
 }

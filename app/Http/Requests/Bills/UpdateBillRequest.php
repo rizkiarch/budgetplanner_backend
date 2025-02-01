@@ -1,5 +1,3 @@
-use Illuminate\Foundation\Http\FormRequest;
-
 <?php
 
 namespace App\Http\Requests\Bills;
