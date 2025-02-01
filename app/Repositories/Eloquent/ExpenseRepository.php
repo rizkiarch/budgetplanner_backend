@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Expenses\Expense;
 use App\Repositories\Contracts\ExpenseRepositoryInterface;
+use Illuminate\Http\Request;
 
 class ExpenseRepository implements ExpenseRepositoryInterface
 {
@@ -23,23 +24,35 @@ class ExpenseRepository implements ExpenseRepositoryInterface
 
     public function create(array $data)
     {
-        return $this->model->create([
-            ...$data,
+        $expense = $this->model->create(array_merge($data, [
             'user_id' => auth()->id(),
-        ]);
+        ]));
+
+        return response()->json(['message' => 'created successfully', 'data' => $expense], 201);
     }
 
-    public function update(string $id, array $data)
+    public function update(int $id, array $data)
     {
         $expense = $this->getById($id);
+
+        if (!$expense) {
+            return response()->json(['message' => 'data not found'], 404);
+        }
+
         $expense->update($data);
-        return $expense;
+        return response()->json(['message' => 'updated successfully', 'data' => $expense], 200);
     }
 
-    public function delete(string $id)
+    public function delete(int $id)
     {
         $expense = $this->getById($id);
+
+        if (!$expense) {
+            return response()->json(['message' => 'data not found'], 404);
+        }
+
         $expense->delete();
+        return response()->json(['message' => 'deleted successfully'], 200);
     }
 
     public function getTotalExpense(): float
@@ -54,10 +67,12 @@ class ExpenseRepository implements ExpenseRepositoryInterface
             ->get();
     }
 
-    public function getRecuringExpenses()
+    public function getRecurringExpenses(bool $recuring = true)
     {
-        return $this->model->forCurrentUser()
-            ->where('is_recurring', true)
+        $expenses = $this->model->forCurrentUser()
+            ->where('is_recurring', $recuring)
             ->get();
+
+        return response()->json($expenses);
     }
 }

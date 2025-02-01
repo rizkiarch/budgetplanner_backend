@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Expenses\StoreExpenseRequest;
 use App\Http\Requests\Expenses\UpdateExpenseRequest;
-use App\Models\Expense;
+use App\Models\Expenses\Expense;
 use App\Repositories\Contracts\ExpenseRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -80,14 +80,14 @@ class ExpenseController extends Controller
         return response()->json(null, 204);
     }
 
-    public function byCategory(string $category): JsonResponse
+    public function byCategory(string $category)
     {
         return response()->json(
             $this->repository->getByCategory($category)
         );
     }
 
-    public function recurringExpenses(): JsonResponse
+    public function recurringExpenses()
     {
         return response()->json(
             $this->repository->getRecurringExpenses()

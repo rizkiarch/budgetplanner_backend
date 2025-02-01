@@ -9,10 +9,6 @@ use App\Http\Controllers\SavingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
 // Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -29,6 +25,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/category/{category}', [IncomeController::class, 'byCategory']);
     });
 
+    // Expenses
+    Route::prefix('expenses')->group(function () {
+        Route::get('/', [ExpenseController::class, 'index']);
+        Route::post('/', [ExpenseController::class, 'store']);
+        Route::get('/{id}', [ExpenseController::class, 'show']);
+        Route::put('/{id}', [ExpenseController::class, 'update']);
+        Route::delete('/{id}', [ExpenseController::class, 'destroy']);
+        Route::get('/category/{category}', [ExpenseController::class, 'byCategory']);
+        Route::get('/recurring/{recurring}', [ExpenseController::class, 'recurringExpenses']);
+    });
+
     // Bills
     Route::prefix('bills')->group(function () {
         Route::get('/', [BillController::class, 'index']);
@@ -39,17 +46,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{id}/mark-as-paid', [BillController::class, 'markAsPaid']);
         Route::get('/upcoming', [BillController::class, 'upcomingBills']);
         Route::get('/overdue', [BillController::class, 'overdueBills']);
-    });
-
-    // Expenses
-    Route::prefix('expenses')->group(function () {
-        Route::get('/', [ExpenseController::class, 'index']);
-        Route::post('/', [ExpenseController::class, 'store']);
-        Route::get('/{id}', [ExpenseController::class, 'show']);
-        Route::put('/{id}', [ExpenseController::class, 'update']);
-        Route::delete('/{id}', [ExpenseController::class, 'destroy']);
-        Route::get('/category/{category}', [ExpenseController::class, 'byCategory']);
-        Route::get('/recurring', [ExpenseController::class, 'recurringExpenses']);
     });
 
     // Savings
